@@ -140,7 +140,9 @@ public class Menu extends javax.swing.JFrame {
         try (PreparedStatement stmt3 = con.prepareStatement("SELECT * FROM proyectos")) {
             ResultSet rs = stmt3.executeQuery();
             while (rs.next())
-                areaPro= areaPro + rs.getString("idproy")+"\t"+rs.getString("nombre")+"\t"+rs.getString("fec_inicio")+"\t"+rs.getString("fec_termino")+"\t"+rs.getString("id_depto")+"\t"+rs.getString("id_ing") + "\n";
+                areaPro= areaPro + rs.getString("idproy")+"\t"+rs.getString("nombre")
+                        +"\t"+rs.getString("fec_inicio")+"\t"+rs.getString("fec_termino")+"\t"
+                        +rs.getString("id_depto")+"\t"+rs.getString("id_ing") + "\n";
             txtAreaPro.setText(areaPro);
             //System.out.println(rs.getString("nombre")+"|\t"+rs.getString("telefono")+"|\t"+rs.getString("fax"));
             
@@ -156,7 +158,8 @@ public class Menu extends javax.swing.JFrame {
         try (PreparedStatement stmt2 = con.prepareStatement("SELECT * FROM departamentos")) {
             ResultSet rs = stmt2.executeQuery();
             while (rs.next())
-                areaDep= areaDep + rs.getString("iddpto")+"\t"+rs.getString("nombre")+"\t"+rs.getString("telefono")+"\t"+rs.getString("fax") + "\n";
+                areaDep= areaDep + rs.getString("iddpto")+"\t"+rs.getString("nombre")+"\t"
+                        +rs.getString("telefono")+"\t"+rs.getString("fax") + "\n";
             txtAreaDep.setText(areaDep);
             //System.out.println(rs.getString("nombre")+"|\t"+rs.getString("telefono")+"|\t"+rs.getString("fax"));
             
@@ -173,7 +176,8 @@ public class Menu extends javax.swing.JFrame {
         try (PreparedStatement stmt1 = con.prepareStatement("SELECT * FROM ingeniero")) {
             ResultSet rs = stmt1.executeQuery();
             while (rs.next())
-                areaing= areaing + rs.getString("iding")+"\t"+rs.getString("especialidad")+"\t"+rs.getString("cargo") + "\n";
+                areaing= areaing + rs.getString("iding")+"\t"
+                        +rs.getString("especialidad")+"\t"+rs.getString("cargo") + "\n";
             txtAreaIng.setText(areaing);
             //System.out.println(rs.getString("nombre")+"|\t"+rs.getString("telefono")+"|\t"+rs.getString("fax"));
             
@@ -185,7 +189,7 @@ public class Menu extends javax.swing.JFrame {
     
     private void conexion(){
         
-        String sURL = "jdbc:mysql://localhost:3306/proyectostest";
+        String sURL = "jdbc:mysql://192.168.1.15:3306/proyectostest";
         try {
             con = DriverManager.getConnection(sURL,"root","");
             System.out.println("Conexion establecida");
@@ -536,6 +540,11 @@ public class Menu extends javax.swing.JFrame {
         });
 
         btn_Eli_Dep.setText("Eliminar");
+        btn_Eli_Dep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_Eli_DepActionPerformed(evt);
+            }
+        });
 
         txtAreaDep.setColumns(20);
         txtAreaDep.setRows(5);
@@ -670,15 +679,10 @@ public class Menu extends javax.swing.JFrame {
         String telefonoDep = txtTelDep.getText();
         String faxDep = txtFaxDep.getText();
         String areaDep="";
-        try (PreparedStatement stmt4 = con.prepareStatement(" insert into departamentos (nombre, telefono, fax)" + " values ('"+nombreDep+"', '"+telefonoDep+"','"+faxDep+"')")) {
+        try (PreparedStatement stmt4 = con.prepareStatement(" insert into departamentos (nombre, telefono, fax)" 
+                + " values ('"+nombreDep+"', '"+telefonoDep+"','"+faxDep+"')")) {
             stmt4.execute();
             mostrarDep();
-            
-            //ResultSet rs = stmt1.executeQuery();
-            //areaing= areaing + rs.getString("iding")+"\t"+rs.getString("especialidad")+"\t"+rs.getString("cargo") + "\n";
-            //txtAreaIng.setText(areaing);
-            //System.out.println(rs.getString("nombre")+"|\t"+rs.getString("telefono")+"|\t"+rs.getString("fax"));
-
         } catch (SQLException sqle) { 
             System.out.println("Error en la ejecución:" 
               + sqle.getErrorCode() + " " + sqle.getMessage());    
@@ -728,21 +732,11 @@ public class Menu extends javax.swing.JFrame {
         String codigoInge2 = Integer.toString(codigoInge);
         int codigoDepa = comboBoxDepPro.getSelectedIndex();
         String codigoDepa2 = Integer.toString(codigoDepa);
-        //String codigoInge = txtCodInge.getText();
-        //String codigoDepa = txtCodDepa.getText();
-        //Date fec_inicios = ParseFecha(iniPro);
-        //Date fec_terminos = ParseFecha(finPro);
-        //System.out.print(fec_terminos.toString());
         String areaPro="";
-        try (PreparedStatement stmt4 = con.prepareStatement(" insert into proyectos (nombre, fec_inicio, fec_termino, id_depto, id_ing)" + " values ('"+nombrePro+"','"+iniPro+"','"+finPro+"','"+codigoDepa2+"','"+codigoInge2+"')")) {
+        try (PreparedStatement stmt4 = con.prepareStatement(" insert into proyectos (nombre, fec_inicio, fec_termino, id_depto, id_ing)" 
+                + " values ('"+nombrePro+"','"+iniPro+"','"+finPro+"','"+codigoDepa2+"','"+codigoInge2+"')")) {
             stmt4.execute();
             mostrarPro();
-
-            //ResultSet rs = stmt1.executeQuery();
-            //areaing= areaing + rs.getString("iding")+"\t"+rs.getString("especialidad")+"\t"+rs.getString("cargo") + "\n";
-            //txtAreaIng.setText(areaing);
-            //System.out.println(rs.getString("nombre")+"|\t"+rs.getString("telefono")+"|\t"+rs.getString("fax"));
-
         } catch (SQLException sqle) {
             System.out.println("Error en la ejecución:"
                 + sqle.getErrorCode() + " " + sqle.getMessage());
@@ -752,12 +746,14 @@ public class Menu extends javax.swing.JFrame {
     private void btn_Act_IngActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Act_IngActionPerformed
         // TODO add your handling code here:
         String codigoIng = txtCodIng.getText();
+        int codigoIng2=Integer.parseInt(codigoIng);
         String especialidadIng = txtEspIng.getText();
         String cargoIng = txtCarIng.getText();
         
         String areaing="";
-        try (PreparedStatement stmt4 = con.prepareStatement("update ingeniero set especialidad='"+ especialidadIng +"' AND cargo='"+cargoIng+"' where iding='"+codigoIng+"'")) {
-            stmt4.execute();
+        try (PreparedStatement stmt4 = con.prepareStatement("update ingeniero set especialidad='"
+                + especialidadIng +"' , cargo='"+cargoIng+"' where iding='"+codigoIng2+"'")) {
+            stmt4.executeUpdate();
             mostrarIng();
 
         } catch (SQLException sqle) { 
@@ -776,21 +772,13 @@ public class Menu extends javax.swing.JFrame {
         String codigoInge2 = Integer.toString(codigoInge);
         int codigoDepa = comboBoxDepPro.getSelectedIndex();
         String codigoDepa2 = Integer.toString(codigoDepa);
-        //String codigoInge = txtCodInge.getText();
-        //String codigoDepa = txtCodDepa.getText();
-        //Date fec_inicios = ParseFecha(iniPro);
-        //Date fec_terminos = ParseFecha(finPro);
-        //System.out.print(fec_terminos.toString());
+
         String areaPro="";
-        try (PreparedStatement stmt4 = con.prepareStatement(" update proyectos set nombre='"+ nombrePro +"' AND fec_inicio='"+iniPro+", fec_termino='"+finPro+"', id_depto='"+codigoDepa2+"', id_ing='"+codigoInge2+"' where idproy='"+codigoPro+"'")) {
-            stmt4.execute();
+        try (PreparedStatement stmt4 = con.prepareStatement(" update proyectos set nombre='"
+                + nombrePro +"' AND fec_inicio='"+iniPro+", fec_termino='"+finPro+"', id_depto='"+codigoDepa2+
+                "', id_ing='"+codigoInge2+"' where idproy='"+codigoPro+"'")) {
+            stmt4.executeUpdate();
             mostrarPro();
-
-            //ResultSet rs = stmt1.executeQuery();
-            //areaing= areaing + rs.getString("iding")+"\t"+rs.getString("especialidad")+"\t"+rs.getString("cargo") + "\n";
-            //txtAreaIng.setText(areaing);
-            //System.out.println(rs.getString("nombre")+"|\t"+rs.getString("telefono")+"|\t"+rs.getString("fax"));
-
         } catch (SQLException sqle) {
             System.out.println("Error en la ejecución:"
                 + sqle.getErrorCode() + " " + sqle.getMessage());
@@ -800,24 +788,34 @@ public class Menu extends javax.swing.JFrame {
     private void btn_Act_DepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Act_DepActionPerformed
         // TODO add your handling code here:
         String codigoDep = txtCodDep.getText();
+        int codigoDep2 = Integer.parseInt(codigoDep);
         String nombreDep = txtNomDep.getText();
         String telefonoDep = txtTelDep.getText();
         String faxDep = txtFaxDep.getText();
         String areaDep="";
-        try (PreparedStatement stmt4 = con.prepareStatement(" update departamentos set nombre='"+ nombreDep +"' AND telefono='"+telefonoDep+", fax='"+faxDep+"' where iddpto='"+codigoDep+"'")) {
-            stmt4.execute();
+        try (PreparedStatement stmt4 = con.prepareStatement(" update departamentos set nombre='"
+                + nombreDep +"' , telefono='"+telefonoDep+", fax='"+faxDep+"' where iddpto='"+codigoDep2+"'")) {
+            stmt4.executeUpdate();
             mostrarDep();
-            
-            //ResultSet rs = stmt1.executeQuery();
-            //areaing= areaing + rs.getString("iding")+"\t"+rs.getString("especialidad")+"\t"+rs.getString("cargo") + "\n";
-            //txtAreaIng.setText(areaing);
-            //System.out.println(rs.getString("nombre")+"|\t"+rs.getString("telefono")+"|\t"+rs.getString("fax"));
-
         } catch (SQLException sqle) { 
             System.out.println("Error en la ejecución:" 
               + sqle.getErrorCode() + " " + sqle.getMessage());    
         }
     }//GEN-LAST:event_btn_Act_DepActionPerformed
+
+    private void btn_Eli_DepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Eli_DepActionPerformed
+        // TODO add your handling code here:
+        int eliminar = comboBoxDep.getSelectedIndex();
+        String consulta = "delete from departamentos where iddep = '"+eliminar+"'";
+        try (PreparedStatement stmt4 = con.prepareStatement(consulta)) {
+            stmt4.execute();
+            mostrarIng();
+
+        } catch (SQLException sqle) { 
+            System.out.println("Error en la ejecución:" 
+              + sqle.getErrorCode() + " " + sqle.getMessage());    
+        }
+    }//GEN-LAST:event_btn_Eli_DepActionPerformed
 
     /**
      * @param args the command line arguments
