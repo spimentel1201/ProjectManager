@@ -305,6 +305,11 @@ public class Menu extends javax.swing.JFrame {
         });
 
         btn_Act_Ing.setText("Actualizar");
+        btn_Act_Ing.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_Act_IngActionPerformed(evt);
+            }
+        });
 
         btn_Eli_Ing.setText("Eliminar");
         btn_Eli_Ing.addActionListener(new java.awt.event.ActionListener() {
@@ -402,6 +407,11 @@ public class Menu extends javax.swing.JFrame {
         });
 
         btn_Act_Pro.setText("Actualizar");
+        btn_Act_Pro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_Act_ProActionPerformed(evt);
+            }
+        });
 
         btn_Eli_Pro.setText("Eliminar");
         btn_Eli_Pro.addActionListener(new java.awt.event.ActionListener() {
@@ -524,6 +534,11 @@ public class Menu extends javax.swing.JFrame {
         });
 
         btn_Act_Dep.setText("Actualizar");
+        btn_Act_Dep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_Act_DepActionPerformed(evt);
+            }
+        });
 
         btn_Eli_Dep.setText("Eliminar");
 
@@ -697,7 +712,7 @@ public class Menu extends javax.swing.JFrame {
         // TODO add your handling code here:
         int eliminar = comboBoxProyectos.getSelectedIndex()+1;
         System.out.println(eliminar);
-        /*String consulta = "delete from proyectos where idproy = '"+eliminar+"'";
+        String consulta = "delete from proyectos where idproy = '"+eliminar+"'";
         try (PreparedStatement stmt4 = con.prepareStatement(consulta)) {
             stmt4.execute();
             mostrarPro();
@@ -705,7 +720,7 @@ public class Menu extends javax.swing.JFrame {
         } catch (SQLException sqle) {
             System.out.println("Error en la ejecución:"
                 + sqle.getErrorCode() + " " + sqle.getMessage());
-        }*/
+        }
     }//GEN-LAST:event_btn_Eli_ProActionPerformed
 
     private void btn_Ins_ProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Ins_ProActionPerformed
@@ -738,6 +753,76 @@ public class Menu extends javax.swing.JFrame {
                 + sqle.getErrorCode() + " " + sqle.getMessage());
         }
     }//GEN-LAST:event_btn_Ins_ProActionPerformed
+
+    private void btn_Act_IngActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Act_IngActionPerformed
+        // TODO add your handling code here:
+        String codigoIng = txtCodIng.getText();
+        String especialidadIng = txtEspIng.getText();
+        String cargoIng = txtCarIng.getText();
+        
+        String areaing="";
+        try (PreparedStatement stmt4 = con.prepareStatement("update ingeniero set especialidad='"+ especialidadIng +"' AND cargo='"+cargoIng+"' where iding='"+codigoIng+"'")) {
+            stmt4.execute();
+            mostrarIng();
+
+        } catch (SQLException sqle) { 
+            System.out.println("Error en la ejecución:" 
+              + sqle.getErrorCode() + " " + sqle.getMessage());    
+        }
+    }//GEN-LAST:event_btn_Act_IngActionPerformed
+
+    private void btn_Act_ProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Act_ProActionPerformed
+        // TODO add your handling code here:
+        String codigoPro = txtCodPro.getText();
+        String nombrePro = txtNomPro.getText();
+        String iniPro = txtIniPro.getText();
+        String finPro = txtFinPro.getText();
+        int codigoInge = comboBoxIngPro.getSelectedIndex();
+        String codigoInge2 = Integer.toString(codigoInge);
+        int codigoDepa = comboBoxDepPro.getSelectedIndex();
+        String codigoDepa2 = Integer.toString(codigoDepa);
+        //String codigoInge = txtCodInge.getText();
+        //String codigoDepa = txtCodDepa.getText();
+        //Date fec_inicios = ParseFecha(iniPro);
+        //Date fec_terminos = ParseFecha(finPro);
+        //System.out.print(fec_terminos.toString());
+        String areaPro="";
+        try (PreparedStatement stmt4 = con.prepareStatement(" update proyectos set nombre='"+ nombrePro +"' AND fec_inicio='"+iniPro+", fec_termino='"+finPro+"', id_depto='"+codigoDepa2+"', id_ing='"+codigoInge2+"' where idproy='"+codigoPro+"'")) {
+            stmt4.execute();
+            mostrarPro();
+
+            //ResultSet rs = stmt1.executeQuery();
+            //areaing= areaing + rs.getString("iding")+"\t"+rs.getString("especialidad")+"\t"+rs.getString("cargo") + "\n";
+            //txtAreaIng.setText(areaing);
+            //System.out.println(rs.getString("nombre")+"|\t"+rs.getString("telefono")+"|\t"+rs.getString("fax"));
+
+        } catch (SQLException sqle) {
+            System.out.println("Error en la ejecución:"
+                + sqle.getErrorCode() + " " + sqle.getMessage());
+        }
+    }//GEN-LAST:event_btn_Act_ProActionPerformed
+
+    private void btn_Act_DepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Act_DepActionPerformed
+        // TODO add your handling code here:
+        String codigoDep = txtCodDep.getText();
+        String nombreDep = txtNomDep.getText();
+        String telefonoDep = txtTelDep.getText();
+        String faxDep = txtFaxDep.getText();
+        String areaDep="";
+        try (PreparedStatement stmt4 = con.prepareStatement(" update departamentos set nombre='"+ nombreDep +"' AND telefono='"+telefonoDep+", fax='"+faxDep+"' where iddpto='"+codigoDep+"'")) {
+            stmt4.execute();
+            mostrarDep();
+            
+            //ResultSet rs = stmt1.executeQuery();
+            //areaing= areaing + rs.getString("iding")+"\t"+rs.getString("especialidad")+"\t"+rs.getString("cargo") + "\n";
+            //txtAreaIng.setText(areaing);
+            //System.out.println(rs.getString("nombre")+"|\t"+rs.getString("telefono")+"|\t"+rs.getString("fax"));
+
+        } catch (SQLException sqle) { 
+            System.out.println("Error en la ejecución:" 
+              + sqle.getErrorCode() + " " + sqle.getMessage());    
+        }
+    }//GEN-LAST:event_btn_Act_DepActionPerformed
 
     /**
      * @param args the command line arguments
