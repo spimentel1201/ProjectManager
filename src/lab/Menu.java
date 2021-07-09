@@ -695,8 +695,9 @@ public class Menu extends javax.swing.JFrame {
 
     private void btn_Eli_ProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Eli_ProActionPerformed
         // TODO add your handling code here:
-        int eliminar = comboBoxIng.getSelectedIndex();
-        String consulta = "delete from proyectos where iding = '"+eliminar+"'";
+        int eliminar = comboBoxProyectos.getSelectedIndex()+1;
+        System.out.println(eliminar);
+        /*String consulta = "delete from proyectos where idproy = '"+eliminar+"'";
         try (PreparedStatement stmt4 = con.prepareStatement(consulta)) {
             stmt4.execute();
             mostrarPro();
@@ -704,7 +705,7 @@ public class Menu extends javax.swing.JFrame {
         } catch (SQLException sqle) {
             System.out.println("Error en la ejecución:"
                 + sqle.getErrorCode() + " " + sqle.getMessage());
-        }
+        }*/
     }//GEN-LAST:event_btn_Eli_ProActionPerformed
 
     private void btn_Ins_ProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Ins_ProActionPerformed
