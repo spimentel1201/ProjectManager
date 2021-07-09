@@ -284,7 +284,6 @@ public class Menu extends javax.swing.JFrame {
 
         jLabel4.setText("Cargo: ");
 
-        txtCodIng.setEnabled(false);
         txtCodIng.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCodIngActionPerformed(evt);
@@ -396,8 +395,6 @@ public class Menu extends javax.swing.JFrame {
         jLabel11.setText("Inicio(AAAA-MM-DD): ");
 
         jLabel12.setText("Termino(AAAA-MM-DD): ");
-
-        txtCodPro.setEnabled(false);
 
         btn_Ins_Pro.setText("Insertar");
         btn_Ins_Pro.addActionListener(new java.awt.event.ActionListener() {
@@ -523,8 +520,6 @@ public class Menu extends javax.swing.JFrame {
         jLabel7.setText("Telefono: ");
 
         jLabel8.setText("Fax: ");
-
-        txtCodDep.setEnabled(false);
 
         btn_Ins_Dep.setText("Insertar");
         btn_Ins_Dep.addActionListener(new java.awt.event.ActionListener() {
